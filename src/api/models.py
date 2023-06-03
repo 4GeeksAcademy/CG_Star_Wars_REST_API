@@ -8,6 +8,52 @@ class User(db.Model):
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
 
+class Character(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    height = db.Column(db.Integer)
+    mass = db.Column(db.Integer)
+    hair_color = db.Column(db.String)
+    skin_color = db.Column(db.String)
+    birth_year = db.Column(db.String)
+    gender = db.Column(db.String)
+    name = db.Column(db.String)
+
+    def serialize (self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "heigt": self.name,
+            "mass": self.mass,
+            "hair_color": self.hair_color,
+            "skin_color": self.skin_color,
+            "birth_year": self.birth_year,
+            "gender": self.gender
+        }
+
+class Planet(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    diameter = db.Column(db.Integer)
+    rotation_period = db.Column(db.Integer)
+    orbital_period = db.Column(db.Integer)
+    gravity = db.Column(db.String)
+    population = db.Column(db.Integer)
+    climate = db.Column(db.String)
+    terrain = db.Column(db.String)
+    name = db.Column(db.String)
+    
+    def serialize (self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "diameter": self.diameter,
+            "rotation_period": self.rotation_period,
+            "orbital_period": self.orbital_period,
+            "gravity": self.gravity,
+            "population": self.population,
+            "climate": self.climate,
+            "terrain": self.terrain
+        }
+
     def __repr__(self):
         return f'<User {self.email}>'
 
