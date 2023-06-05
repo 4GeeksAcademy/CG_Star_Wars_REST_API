@@ -56,3 +56,8 @@ def get_users():
     for user in users:
         user_data.append(user.serialize())
     return jsonify(user_data)
+
+@api.route('/favorites', methods=['GET'])
+def get_favorites(): 
+
+    favorites = 

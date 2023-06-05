@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 
+
 db = SQLAlchemy()
 
 class User(db.Model):
@@ -65,3 +66,14 @@ class Planet(db.Model):
             "surface_water": self.surface_water,
             "name": self.name
         }
+
+class Favorites_planets(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    planet_id = db.Column(db.Integer, db.ForeignKey('planet.id'))
+
+
+class Favorites_characters(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    character_id = db.Column(db.Integer, db.ForeignKey('character.id'))
