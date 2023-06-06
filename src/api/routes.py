@@ -57,22 +57,33 @@ def get_users():
         user_data.append(user.serialize())
     return jsonify(user_data)
 
+
 @api.route('/favorites', methods=['GET'])
 def get_favorites(): 
 
     favoritesPlanets = Favorites_planets.query.all() 
     favoritesCharacters = Favorites_characters.query.all()
     
-    fav_planets_data = []
-    fav_characters_data = []
+    fav_data = []
 
     for favorites_planets in favoritesPlanets:
-        fav_planets_data.append(favorites_planets.serialize())
+        fav_data.append(favorites_planets.serialize())
 
     for favorites_characters in favoritesCharacters:
-        fav_characters_data.append(favorites_characters.serialize())
+        fav_data.append(favorites_characters.serialize())
 
-    return jsonify({
-        'fav_planets': fav_planets_data,
-        'fav_characters': fav_characters_data
-    })
+    print(fav_data)
+    return jsonify(fav_data)
+
+@api.route('/favorite/planet', methods=['POST'])
+def post_favorites():
+    data = request.json
+
+    planet = data.get('planet_id')
+    user = data.get('user_id')
+    if not user or not planet:
+        return jsonify({'message': "completa los campos requeridos"}), 404
+    
+    addFav = Favorites_planets(user_id=user, planet_id=planet)
+    db.session.add(addFav)
+    db.session.commit()
