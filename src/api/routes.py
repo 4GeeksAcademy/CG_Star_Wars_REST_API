@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Character, Planet
+from api.models import db, User, Character, Planet, Favorites_characters, Favorites_planets
 from api.utils import generate_sitemap, APIException
 
 api = Blueprint('api', __name__)
@@ -60,4 +60,19 @@ def get_users():
 @api.route('/favorites', methods=['GET'])
 def get_favorites(): 
 
-    favorites = 
+    favoritesPlanets = Favorites_planets.query.all() 
+    favoritesCharacters = Favorites_characters.query.all()
+    
+    fav_planets_data = []
+    fav_characters_data = []
+
+    for favorites_planets in favoritesPlanets:
+        fav_planets_data.append(favorites_planets.serialize())
+
+    for favorites_characters in favoritesCharacters:
+        fav_characters_data.append(favorites_characters.serialize())
+
+    return jsonify({
+        'fav_planets': fav_planets_data,
+        'fav_characters': fav_characters_data
+    })
